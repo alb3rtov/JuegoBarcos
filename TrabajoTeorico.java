@@ -146,20 +146,8 @@ public class TrabajoTeorico {
 		
 		else if (orientacionBarco.equalsIgnoreCase("h")) {
 			posicionBarcoHorizontal(tableroJugador, filaBarco1, columnaBarco1);
-		}
-		
-		
-		
-		
-		
-		
-
-		
-		
-		
-		
+		}	
 	}
-	
 	
 	// Falta comprobar dos cosas:
 	// - Comprobar que el que si esta en los limites del tablero solo deje poner una posicion
@@ -288,29 +276,122 @@ public class TrabajoTeorico {
 	
 	private static void comienzaJuego(boolean [][] tableroJugador1, boolean[][] tableroJugador2) {
 		
-		boolean turnoJugador1 = true;
-		boolean turnoJugador2;
+		boolean turnoJugador = true;
 		boolean partidaEnJuego = true;
+		boolean [][] tableroAuxiliar;
 		int fila, columna;
 		int contadorAtaquesJ1 = 0;
 		int contadorAtaquesJ2 = 0;
+		boolean ganador = false;
 		
 		while (partidaEnJuego) {
-			while (turnoJugador1) {
-				System.out.println(" --------------- TURNO JUGADOR 1 --------------- ");
-				System.out.println("Introduzca las coordenadas a atacar");
-				System.out.println("Numero de la fila a atacar: ");
-				fila = TECLADO.nextInt();
-				System.out.println("Numero de la columna a atacar: ");
-				columna = TECLADO.nextInt();
-				
+			
+			if (turnoJugador) {
+				System.out.println(" --------------- TURNO JUGADOR 1 --------------- "); 
+				tableroAuxiliar = tableroJugador2;
+				contadorAtaquesJ1++;
+				turnoJugador = false;
+			}
+			else {
+				System.out.println(" --------------- TURNO JUGADOR 2 --------------- "); 
+				tableroAuxiliar = tableroJugador1;	
+				contadorAtaquesJ2++;
+				turnoJugador = true;
 			}
 			
+			System.out.println("Introduzca las coordenadas a atacar");
+			System.out.println("Numero de la fila a atacar: ");
+			fila = TECLADO.nextInt();
+			System.out.println("Numero de la columna a atacar: ");
+			columna = TECLADO.nextInt();		
+			comprobarAtaque(tableroAuxiliar, fila, columna);
+			
+			if (turnoJugador) {
+				System.out.println("Tablero Jugador 1");
+				tableroJugador(tableroJugador1);
+			}
+			
+			else {
+				System.out.println("Tablero Jugador 2");
+				tableroJugador(tableroJugador2);
+			}
+			
+			
+			partidaEnJuego = comprobarTablero(tableroAuxiliar);
+			
+			if (!partidaEnJuego) {
+				
+				if (turnoJugador) {
+					
+					ganador = true;
+				}
+				
+				else {
+					
+					ganador = false;
+				}
+				
+			}
 			
 		}
 		
 		
+		finDeJuego(contadorAtaquesJ1, contadorAtaquesJ2, ganador);
+	}
+	
+	
+	private static void comprobarAtaque(boolean [][] tableroAuxiliar, int fila, int columna) {
 		
+		if (tableroAuxiliar[fila-1][columna-1]) {
+			
+			if (tableroAuxiliar[fila-1][columna-2] ||
+				tableroAuxiliar[fila-1][columna] ||
+				tableroAuxiliar[fila-2][columna-1] ||
+				tableroAuxiliar[fila][columna-1]      	
+				) {
+				System.out.println("Tocado");
+				tableroAuxiliar[fila-1][columna-1] = false;
+			}
+			
+			else {
+				System.out.println("Hundido");
+				tableroAuxiliar[fila-1][columna-1] = false;
+			}	
+		}
+		else {
+			System.out.println("Agua");	
+		}
+	}
+	
+	
+	private static boolean comprobarTablero(boolean [][] tableroAuxiliar) {
+		boolean partidaEnJuego = false;
+		
+		for (int i = 0; i < tableroAuxiliar.length; i++) {
+			for (int j = 0; j < tableroAuxiliar[i].length; j++) {
+				if (tableroAuxiliar[i][j]) {
+					partidaEnJuego = true;	
+				}				
+			}
+		}
+
+		return partidaEnJuego;
+	}
+	
+	
+	private static void finDeJuego(int contadorAtaquesJ1, int contadorAtaquesJ2, boolean ganador) {
+		
+		if (ganador) {
+			System.out.println("Jugador 1 gana la partida");	
+		}
+		else {
+			System.out.println("Jugador 2 gana la partida");
+			
+		}
+				
+		
+		System.out.println("Numero de ataques jugador 1: " + contadorAtaquesJ1);
+		System.out.println("Numero de ataques jugador 2: " + contadorAtaquesJ2);	
 	}
 	
 	
