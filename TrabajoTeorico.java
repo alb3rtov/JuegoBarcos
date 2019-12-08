@@ -46,6 +46,10 @@ public class TrabajoTeorico {
 		System.out.println(" - Angel Villafranca Iniesta");
 		System.out.println(" - El otro que no se como se llama");
 		System.out.println();
+		System.out.println("Las X representan los barcos");
+		System.out.println("Las O representan agua");
+		System.out.println("Comienza el juego....");
+		System.out.println();
 	}
 	
 	
@@ -178,6 +182,7 @@ public class TrabajoTeorico {
 		
 		int fila1, fila2, columna;
 		boolean avisoError = false;
+		String opcion;
 		
 		do {
 			if (avisoError) {
@@ -201,13 +206,27 @@ public class TrabajoTeorico {
 			int filaMenosUno = fila1-1;
 			int filaMasUno = fila1+1;
 	
-			System.out.println("Indique la segunda fila del barco 2 (" + filaMenosUno + "-" + filaMasUno + "): ");
+			if (fila1 == 1) {
+				System.out.println("Indique la segunda fila del barco 2 (Solo puede ser " + filaMasUno + "): ");
+				opcion = "Indique la segunda fila del barco 2 (Solo puede ser " + filaMasUno + "): ";
+			}
+			
+			else if (fila1 == tableroJugador.length) {
+				System.out.println("Indique la segunda fila del barco 2 (Solo puede ser " + filaMenosUno + "): ");
+				opcion = "Indique la segunda fila del barco 2 (Solo puede ser " + filaMenosUno + "): ";
+			}
+			
+			else {
+				System.out.println("Indique la segunda fila del barco 2 (" + filaMenosUno + "-" + filaMasUno + "): ");
+				opcion = "Indique la segunda fila del barco 2 (" + filaMenosUno + "-" + filaMasUno + "): ";
+			}
+			
 			fila2 = TECLADO.nextInt();
 			
 			
 			while (fila2 < filaMenosUno || fila2 > filaMasUno || fila2 == fila1) {
-				System.out.println("Introduzca un valor correcto (" + filaMenosUno + "-" + filaMasUno + "): ");
-				System.out.println("Indique la segunda fila del barco 2: ");
+				System.out.println("Introduzca un valor correcto");
+				System.out.println(opcion);
 				fila2 = TECLADO.nextInt();
 			}
 			
@@ -246,6 +265,7 @@ public class TrabajoTeorico {
 		
 		int fila, columna1, columna2;
 		boolean avisoError = false;
+		String opcion;
 		
 		do {
 			
@@ -280,12 +300,26 @@ public class TrabajoTeorico {
 			int columnaMenosUno = columna1-1;
 			int columnaMasUno = columna1+1;
 			
-			System.out.println("Indique la segunda columna del barco 2 (" + columnaMenosUno + "-" + columnaMasUno + "): ");
+			if (columna1 == 1) {
+				System.out.println("Indique la segunda columna del barco 2 (Solo puede ser " + columnaMasUno + "): ");
+				opcion = "Indique la segunda columna del barco 2 (Solo puede ser " + columnaMasUno + "): ";
+			}
+			
+			else if (columna1 == tableroJugador[0].length) {
+				System.out.println("Indique la segunda columna del barco 2 (Solo puede ser " + columnaMenosUno + "): ");
+				opcion = "Indique la segunda columna del barco 2 (Solo puede ser " + columnaMenosUno + "): ";
+			}
+			
+			else {
+				System.out.println("Indique la segunda columna del barco 2 (" + columnaMenosUno + "-" + columnaMasUno + "): ");
+				opcion = "Indique la segunda columna del barco 2 (" + columnaMenosUno + "-" + columnaMasUno + "): ";
+			}
+			
 			columna2 = TECLADO.nextInt();
 			
 			while (columna2 < columnaMenosUno || columna2 > columnaMasUno || columna2 == columna1) {
-				System.out.println("Introduzca un valor correcto (" + columnaMenosUno + "-" + columnaMasUno + "): ");
-				System.out.println("Indique la segunda fila del barco 2: ");
+				System.out.println("Introduzca un valor correcto");
+				System.out.println(opcion);
 				columna2 = TECLADO.nextInt();
 			}
 		
@@ -337,14 +371,14 @@ public class TrabajoTeorico {
 			fila = TECLADO.nextInt();
 			
 			while (fila <= 0 || fila > tableroAuxiliar.length) {
-				System.out.println("Introduzca una fila correcta (1-" + tableroAuxiliar.length + ")");
+				System.out.println("Introduzca una fila correcta (1-" + tableroAuxiliar.length + "): ");
 				fila = TECLADO.nextInt();
 			}
 			
-			System.out.println("Numero de la columna a atacar (1- " + tableroAuxiliar[0].length + ": ");
+			System.out.println("Numero de la columna a atacar (1-" + tableroAuxiliar[0].length + "): ");
 			columna = TECLADO.nextInt();		
 			while (columna <= 0 || columna > tableroAuxiliar[0].length) {
-				System.out.println("Introduzca una columna correcta (1-" + tableroAuxiliar[0].length + ")");
+				System.out.println("Introduzca una columna correcta (1-" + tableroAuxiliar[0].length + "): ");
 				columna = TECLADO.nextInt();
 			}
 
@@ -369,20 +403,23 @@ public class TrabajoTeorico {
 	
 	private static void comprobarAtaque(boolean [][] tableroAuxiliar, int fila, int columna) {
 		if (tableroAuxiliar[fila-1][columna-1]) {
-			if (tableroAuxiliar[fila-1][columna-2] ||
-				tableroAuxiliar[fila-1][columna] ||
-				tableroAuxiliar[fila-2][columna-1] ||
-				tableroAuxiliar[fila][columna-1]      	
-				) {
-				System.out.println("Tocado");
-				tableroAuxiliar[fila-1][columna-1] = false;
-			}
-			
-			else {
-				System.out.println("Hundido");
-				tableroAuxiliar[fila-1][columna-1] = false;
-			}	
+
+				// ESTO ES LO QUE FALTA POR ARREGLAR
+				if (tableroAuxiliar[fila-1][columna-2] ||
+					tableroAuxiliar[fila-1][columna] ||
+					tableroAuxiliar[fila-2][columna-1] ||
+					tableroAuxiliar[fila][columna-1]      	
+					) {
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+				
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}			
 		}
+		
 		else System.out.println("Agua");	
 	}
 	
