@@ -1,38 +1,46 @@
-package Proyecto_Teorico;
-
+//Importo el libreria Scanner para leer desde teclado entradas del usuario
 import java.util.Scanner;
 
-public class TrabajoTeorico {
-
+public class JuegoBarcos {
+	//Defino una única variable global para leer desde teclado los inputs del usuario
 	final static Scanner TECLADO = new Scanner (System.in);
 	
 	public static void main(String[] args) {
-		
-		
+		//Método de mensaje de bienvenida al programa
 		bienvenidaPrograma();
 		
+		//Variables locales del método main, asignadas desde métodos
 		int numFilas = numFilas();
 		int numColumnas = numColumnas();
+		
+		//Variable boolean para comprobar el jugador actual
 		boolean esJugador1;
 		
+		//Creación de los arrays booleanos bidimensionales
 		boolean [][] tableroJugador1 = new boolean [numFilas] [numColumnas];
 		boolean [][] tableroJugador2 = new boolean [numFilas] [numColumnas];
 		
+		//Metodo inicializarTableros
 		inicializarTableros(tableroJugador1, tableroJugador2);
 		
-		
 		esJugador1 = true;
+		//Método posicionBarco, tableroJugador y ocultarTablero para jugador 1
 		posicionBarco(tableroJugador1, esJugador1);		
 		tableroJugador(tableroJugador1, esJugador1);
-
+		ocultarTablero();
+		
 		esJugador1 = false;
+		//Método posicionBarco, tableroJugador y ocultarTablero para jugador 2
 		posicionBarco(tableroJugador2, esJugador1);
 		tableroJugador(tableroJugador2, esJugador1);
+		ocultarTablero();
 		
+		//Metodo que inicia el juego
 		comienzaJuego(tableroJugador1, tableroJugador2, esJugador1);
 
 	}
 	
+	//Mensaje de bienvenida al usuario
 	private static void bienvenidaPrograma() {
 		System.out.println("***************************************");
 		System.out.println("** Bienvenido al Juego de los Barcos **");
@@ -49,8 +57,7 @@ public class TrabajoTeorico {
 		System.out.println();
 	}
 	
-	
-	
+	//Metodo para inicializar los tableros vacíos (false)
 	private static void inicializarTableros(boolean [][] tableroJugador1, boolean [][] tableroJugador2) {		
 		for (int i = 0; i < tableroJugador1.length; i++) {
 			for (int j = 0; j < tableroJugador1[0].length; j++) {
@@ -58,37 +65,36 @@ public class TrabajoTeorico {
 				tableroJugador2[i][j] = false;
 			}
 		}
+		System.out.println("\n[*] Tableros creados e inicializados [*]");	
 	}
 	
-	
+	//Metodo que solicita al usuario el numero de filas de los tableros y devuelve dicho valor
 	private static int numFilas() {
 		int numFilas;
 		do {
-			System.out.println("Indique el número de filas del tablero (1-15): ");
+			System.out.println("Indique el número de filas del tablero (3-15): ");
 			numFilas = TECLADO.nextInt();
-		} while (numFilas <= 0 || numFilas > 15);
+		} while (numFilas < 3 || numFilas > 15);
 		
 		return numFilas;	
 	}
 	
-	
-	
+	//Metodo que solicita al usuario el numero de columnas de los tableros y devuelve dicho valor
 	private static int numColumnas() {
 		int numColumnas;	
 		do {
-			System.out.println("Indique el número de columnas del tablero (1-15): ");
+			System.out.println("Indique el número de columnas del tablero (3-15): ");
 			numColumnas = TECLADO.nextInt();
-		} while (numColumnas <= 0 || numColumnas > 15);
+		} while (numColumnas < 3 || numColumnas > 15);
 		
 		return numColumnas;		
 	}
 	
 	
-	
+	//Método que imprime en pantalla el tablero del jugador actual
 	private static void tableroJugador(boolean [][] tableroJugador, boolean esJugador1) {
 		if (esJugador1) 
-			System.out.println(" --------------- TABLERO JUGADOR 1 --------------- ");
-		
+			System.out.println(" --------------- TABLERO JUGADOR 1 --------------- ");		
 		else 
 			System.out.println(" --------------- TABLERO JUGADOR 2 --------------- ");
 		
@@ -100,13 +106,11 @@ public class TrabajoTeorico {
 			}	
 			System.out.println();
 		}
-		System.out.println();
-		
-		ocultarTablero();
+		System.out.println();	
 	}
 	
 	
-	
+	//Método para la asignación de la posición de los barcos
 	private static void posicionBarco(boolean [][] tableroJugador, boolean esJugador1) {
 		int numFila, numColumna;
 		int filaBarco1 = 0;
@@ -139,6 +143,7 @@ public class TrabajoTeorico {
 		}
 		
 		tableroJugador[numFila-1][numColumna-1] = true;
+		tableroJugador(tableroJugador, esJugador1);
 		System.out.println();
 
 		System.out.println("Introduzca la posicion de barco numero 2 (tamaño 1x2)");
@@ -150,8 +155,7 @@ public class TrabajoTeorico {
 			System.out.println("Introduzca una opción correcta (v/h)");
 			System.out.println("Desea posicionar su barco de manera vertical u horizontal (v/h): ");
 			orientacionBarco = TECLADO.nextLine();
-		}
-		
+		}		
 		
 		for (int i = 0; i < tableroJugador.length; i++) {
 			for (int j = 0; j < tableroJugador[i].length; j++) {
@@ -159,24 +163,20 @@ public class TrabajoTeorico {
 				if (tableroJugador[i][j]) {
 					filaBarco1 = i+1;
 					columnaBarco1 = j+1;
-				} 
-				
+				} 			
 			}
-		}
-		
+		}		
 		
 		if (orientacionBarco.equalsIgnoreCase("v")) {
 			posicionBarcoVertical(tableroJugador, filaBarco1, columnaBarco1);
 		}
-		
 		
 		else if (orientacionBarco.equalsIgnoreCase("h")) {
 			posicionBarcoHorizontal(tableroJugador, filaBarco1, columnaBarco1);
 		}	
 	}
 	
-	// Falta comprobar dos cosas:
-	// - Comprobar que el que si esta en los limites del tablero solo deje poner una posicion
+	//Método para la asignación de los barcos de tamaño 2 en vertical
 	private static void posicionBarcoVertical(boolean [][] tableroJugador, int filaBarco1, int columnaBarco1) {
 		
 		int fila1, fila2, columna;
@@ -216,7 +216,7 @@ public class TrabajoTeorico {
 			}
 			
 			else {
-				System.out.println("Indique la segunda fila del barco 2 (" + filaMenosUno + "-" + filaMasUno + "): ");
+				System.out.println("Indique la segunda fila del barco 2 (" + filaMenosUno + " o " + filaMasUno + "): ");
 				opcion = "Indique la segunda fila del barco 2 (" + filaMenosUno + "-" + filaMasUno + "): ";
 			}
 			
@@ -238,8 +238,6 @@ public class TrabajoTeorico {
 				System.out.println("Indique la columna de barco 2: ");
 				columna = TECLADO.nextInt();
 			}
-		
-		
 		}
 		
 		while(fila1 == filaBarco1  && columna == columnaBarco1 || 
@@ -251,15 +249,14 @@ public class TrabajoTeorico {
 				fila2 == filaBarco1 && columna == columnaBarco1-1 ||
 				fila2 == filaBarco1 && columna == columnaBarco1+1 ||
 				fila2 == filaBarco1-1 && columna == columnaBarco1 ||
-				fila2 == filaBarco1+1 && columna == columnaBarco1
-				);
+				fila2 == filaBarco1+1 && columna == columnaBarco1);
 		
 		tableroJugador[fila1-1][columna-1] = true;
 		tableroJugador[fila2-1][columna-1] = true;
 	}
 	
 	
-	
+	//Método para la asignación de los barcos de tamaño 2 en horizontal
 	private static void posicionBarcoHorizontal(boolean [][] tableroJugador, int filaBarco1, int columnaBarco1) {
 		
 		int fila, columna1, columna2;
@@ -267,7 +264,6 @@ public class TrabajoTeorico {
 		String opcion;
 		
 		do {
-			
 			if (avisoError) {
 				System.out.println("La posición indicada no es válida");
 				System.out.println("Recuerda que barco 2 no puede estar en la misma posición que barco 1");
@@ -321,7 +317,6 @@ public class TrabajoTeorico {
 				System.out.println(opcion);
 				columna2 = TECLADO.nextInt();
 			}
-		
 		}
 		
 		while (columna1 == columnaBarco1 && fila == filaBarco1 ||
@@ -335,6 +330,7 @@ public class TrabajoTeorico {
 				columna2 == columnaBarco1 && fila == filaBarco1-1 ||
 				columna2 == columnaBarco1 && fila == filaBarco1+1
 				); 
+		
 		tableroJugador[fila-1][columna1-1] = true;
 		tableroJugador[fila-1][columna2-1] = true;
 	}
@@ -384,10 +380,7 @@ public class TrabajoTeorico {
 			}
 
 			comprobarAtaque(tableroAuxiliar, fila, columna);
-			
-			//if (turnoJugador) tableroJugador(tableroJugador1, esJugador1);
-			//else tableroJugador(tableroJugador2, esJugador1);
-	
+
 			partidaEnJuego = comprobarTablero(tableroAuxiliar);
 			
 			if (!partidaEnJuego) {
@@ -399,161 +392,94 @@ public class TrabajoTeorico {
 		}
 		
 		finDeJuego(contadorAtaquesJ1, contadorAtaquesJ2, ganador);
-	}
-	
+	}	
 	
 	private static void comprobarAtaque(boolean [][] tableroAuxiliar, int fila, int columna) {
 		
 		if (tableroAuxiliar[fila-1][columna-1]) {
 			
 			if (fila-1 == 0 && columna-1 == 0) {
-				System.out.println("Heyy");
 				if (tableroAuxiliar[fila-1][columna] ||
 					tableroAuxiliar[fila][columna-1]) 
-				{
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-					
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
+					barcoTocado(tableroAuxiliar, fila, columna);	
+				else 
+					barcoHundido(tableroAuxiliar, fila, columna);
 			}
 			
 			else if (fila-1 == 0 && columna-1 == tableroAuxiliar[0].length-1) {
-				
 				if (tableroAuxiliar[fila-1][columna-2] ||
 					tableroAuxiliar[fila][columna-1]) 
-				{
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-						
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
+					barcoTocado(tableroAuxiliar, fila, columna);	
+				else
+					barcoHundido(tableroAuxiliar, fila, columna);
 			}
-			
-			
-			else if (fila-1 == tableroAuxiliar.length-1 && columna-1 == 0) {
-				
+
+			else if (fila-1 == tableroAuxiliar.length-1 && columna-1 == 0) {				
 				if (tableroAuxiliar[fila-2][columna-1] ||
 					tableroAuxiliar[fila-1][columna]) 
-				{
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-						
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
+					barcoTocado(tableroAuxiliar, fila, columna);		
+				else 
+					barcoHundido(tableroAuxiliar, fila, columna);
 			}
 			
 			else if (fila-1 == tableroAuxiliar.length-1 && columna-1 == tableroAuxiliar[0].length-1) {
-				
 				if (tableroAuxiliar[fila-1][columna-2] ||
-						tableroAuxiliar[fila-2][columna-1]) 
-					{
-						System.out.println("Tocado");
-						tableroAuxiliar[fila-1][columna-1] = false;
-					}		
-					else {
-						System.out.println("Hundido");
-						tableroAuxiliar[fila-1][columna-1] = false;
-					}
+					tableroAuxiliar[fila-2][columna-1]) 
+					barcoTocado(tableroAuxiliar, fila, columna);
+				else
+					barcoHundido(tableroAuxiliar, fila, columna);
 			}
 			
 			else if (fila-1 == 0) {
-				System.out.println("La columna no es 0");
 				if (tableroAuxiliar[fila-1][columna-2] ||
-						tableroAuxiliar[fila-1][columna] ||
-						tableroAuxiliar[fila][columna-1]) 
-				{
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-					
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}	
+					tableroAuxiliar[fila-1][columna] ||
+					tableroAuxiliar[fila][columna-1]) 
+					barcoTocado(tableroAuxiliar, fila, columna);					
+				else
+					barcoHundido(tableroAuxiliar, fila, columna);
 			}
-			
 			
 			else if (fila-1 == tableroAuxiliar.length-1) {
 				
 				if (tableroAuxiliar[fila-1][columna-2] ||
 					tableroAuxiliar[fila-1][columna] ||
-					tableroAuxiliar[fila-2][columna-1]) 
-				{
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-					
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}	
+					tableroAuxiliar[fila-2][columna-1]) 				
+					barcoTocado(tableroAuxiliar, fila, columna);
+				else
+					barcoHundido(tableroAuxiliar, fila, columna);	
 			}
 			
-			
-			else if (columna-1 == 0) {
-				
+			else if (columna-1 == 0) {	
 				if (tableroAuxiliar[fila-1][columna] ||
 					tableroAuxiliar[fila-2][columna-1] ||
 					tableroAuxiliar[fila][columna-1]) 
-				{
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-					
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}	
+					barcoTocado(tableroAuxiliar, fila, columna);
+				else
+					barcoHundido(tableroAuxiliar, fila, columna);
 			}
-				
-			
+
 			else if (columna-1 == tableroAuxiliar[0].length-1) {
-				
 				if (tableroAuxiliar[fila-1][columna-2] ||
 					tableroAuxiliar[fila-2][columna-1] ||
 					tableroAuxiliar[fila][columna-1]) 
-				{
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-					
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}	
+					barcoTocado(tableroAuxiliar, fila, columna);
+				else
+					barcoHundido(tableroAuxiliar, fila, columna);
 			}
 			
 			else {
-				// ESTO ES LO QUE FALTA POR ARREGLAR
 				if (tableroAuxiliar[fila-1][columna-2] ||
 					tableroAuxiliar[fila-1][columna] ||
 					tableroAuxiliar[fila-2][columna-1] ||
-					tableroAuxiliar[fila][columna-1]      	
-					) {
-					System.out.println("Tocado");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}
-				
-				else {
-					System.out.println("Hundido");
-					tableroAuxiliar[fila-1][columna-1] = false;
-				}		
+					tableroAuxiliar[fila][columna-1])
+					barcoTocado(tableroAuxiliar, fila, columna);
+				else 
+					barcoHundido(tableroAuxiliar, fila, columna);	
 			}	
 		}
-		
 		else System.out.println("Agua");
 		
-		}
+	}
 	
 	
 	private static boolean comprobarTablero(boolean [][] tableroAuxiliar) {
@@ -577,16 +503,24 @@ public class TrabajoTeorico {
 	}
 	
 	private static void ocultarTablero() {
-		
 		System.out.println("Presiona ENTER para continuar...");
 		TECLADO.nextLine();
 		TECLADO.nextLine();
-		
 		for (int i = 0; i < 25; i++) {
 			System.out.println("\n");
 		}
-		
 	}
+	
+	private static void barcoTocado(boolean [][] tableroAuxiliar, int fila, int columna) {
+		System.out.println("Tocado uno de dos");
+		tableroAuxiliar[fila-1][columna-1] = false;	
+	}
+	
+	private static void barcoHundido(boolean [][] tableroAuxiliar, int fila, int columna) {
+		System.out.println("Hundido");
+		tableroAuxiliar[fila-1][columna-1] = false;
+	}
+	
 	
 }
 
