@@ -15,7 +15,6 @@ public class TrabajoTeorico {
 		int numColumnas = numColumnas();
 		boolean esJugador1;
 		
-		
 		boolean [][] tableroJugador1 = new boolean [numFilas] [numColumnas];
 		boolean [][] tableroJugador2 = new boolean [numFilas] [numColumnas];
 		
@@ -23,18 +22,16 @@ public class TrabajoTeorico {
 		
 		
 		esJugador1 = true;
-		posicionBarco(tableroJugador1, esJugador1);
+		posicionBarco(tableroJugador1, esJugador1);		
 		tableroJugador(tableroJugador1, esJugador1);
 
 		esJugador1 = false;
 		posicionBarco(tableroJugador2, esJugador1);
 		tableroJugador(tableroJugador2, esJugador1);
 		
-		
 		comienzaJuego(tableroJugador1, tableroJugador2, esJugador1);
 
 	}
-	
 	
 	private static void bienvenidaPrograma() {
 		System.out.println("***************************************");
@@ -44,7 +41,7 @@ public class TrabajoTeorico {
 		System.out.println(" - Alberto Vázquez Martínez");
 		System.out.println(" - Alvaro Ramos Cobacho");
 		System.out.println(" - Angel Villafranca Iniesta");
-		System.out.println(" - El otro que no se como se llama");
+		System.out.println(" - Carlos Herencia García");
 		System.out.println();
 		System.out.println("Las X representan los barcos");
 		System.out.println("Las O representan agua");
@@ -104,6 +101,8 @@ public class TrabajoTeorico {
 			System.out.println();
 		}
 		System.out.println();
+		
+		ocultarTablero();
 	}
 	
 	
@@ -351,6 +350,8 @@ public class TrabajoTeorico {
 		int contadorAtaquesJ2 = 0;
 		boolean ganador = false;
 		
+		System.out.println("Que comienze el juego...\n");
+		
 		while (partidaEnJuego) {
 			
 			if (turnoJugador) {
@@ -384,8 +385,8 @@ public class TrabajoTeorico {
 
 			comprobarAtaque(tableroAuxiliar, fila, columna);
 			
-			if (turnoJugador) tableroJugador(tableroJugador1, esJugador1);
-			else tableroJugador(tableroJugador2, esJugador1);
+			//if (turnoJugador) tableroJugador(tableroJugador1, esJugador1);
+			//else tableroJugador(tableroJugador2, esJugador1);
 	
 			partidaEnJuego = comprobarTablero(tableroAuxiliar);
 			
@@ -402,8 +403,137 @@ public class TrabajoTeorico {
 	
 	
 	private static void comprobarAtaque(boolean [][] tableroAuxiliar, int fila, int columna) {
+		
 		if (tableroAuxiliar[fila-1][columna-1]) {
-
+			
+			if (fila-1 == 0 && columna-1 == 0) {
+				System.out.println("Heyy");
+				if (tableroAuxiliar[fila-1][columna] ||
+					tableroAuxiliar[fila][columna-1]) 
+				{
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+					
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+			}
+			
+			else if (fila-1 == 0 && columna-1 == tableroAuxiliar[0].length-1) {
+				
+				if (tableroAuxiliar[fila-1][columna-2] ||
+					tableroAuxiliar[fila][columna-1]) 
+				{
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+						
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+			}
+			
+			
+			else if (fila-1 == tableroAuxiliar.length-1 && columna-1 == 0) {
+				
+				if (tableroAuxiliar[fila-2][columna-1] ||
+					tableroAuxiliar[fila-1][columna]) 
+				{
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+						
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+			}
+			
+			else if (fila-1 == tableroAuxiliar.length-1 && columna-1 == tableroAuxiliar[0].length-1) {
+				
+				if (tableroAuxiliar[fila-1][columna-2] ||
+						tableroAuxiliar[fila-2][columna-1]) 
+					{
+						System.out.println("Tocado");
+						tableroAuxiliar[fila-1][columna-1] = false;
+					}		
+					else {
+						System.out.println("Hundido");
+						tableroAuxiliar[fila-1][columna-1] = false;
+					}
+			}
+			
+			else if (fila-1 == 0) {
+				System.out.println("La columna no es 0");
+				if (tableroAuxiliar[fila-1][columna-2] ||
+						tableroAuxiliar[fila-1][columna] ||
+						tableroAuxiliar[fila][columna-1]) 
+				{
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+					
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}	
+			}
+			
+			
+			else if (fila-1 == tableroAuxiliar.length-1) {
+				
+				if (tableroAuxiliar[fila-1][columna-2] ||
+					tableroAuxiliar[fila-1][columna] ||
+					tableroAuxiliar[fila-2][columna-1]) 
+				{
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+					
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}	
+			}
+			
+			
+			else if (columna-1 == 0) {
+				
+				if (tableroAuxiliar[fila-1][columna] ||
+					tableroAuxiliar[fila-2][columna-1] ||
+					tableroAuxiliar[fila][columna-1]) 
+				{
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+					
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}	
+			}
+				
+			
+			else if (columna-1 == tableroAuxiliar[0].length-1) {
+				
+				if (tableroAuxiliar[fila-1][columna-2] ||
+					tableroAuxiliar[fila-2][columna-1] ||
+					tableroAuxiliar[fila][columna-1]) 
+				{
+					System.out.println("Tocado");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}
+					
+				else {
+					System.out.println("Hundido");
+					tableroAuxiliar[fila-1][columna-1] = false;
+				}	
+			}
+			
+			else {
 				// ESTO ES LO QUE FALTA POR ARREGLAR
 				if (tableroAuxiliar[fila-1][columna-2] ||
 					tableroAuxiliar[fila-1][columna] ||
@@ -417,11 +547,13 @@ public class TrabajoTeorico {
 				else {
 					System.out.println("Hundido");
 					tableroAuxiliar[fila-1][columna-1] = false;
-				}			
+				}		
+			}	
 		}
 		
-		else System.out.println("Agua");	
-	}
+		else System.out.println("Agua");
+		
+		}
 	
 	
 	private static boolean comprobarTablero(boolean [][] tableroAuxiliar) {
@@ -437,12 +569,25 @@ public class TrabajoTeorico {
 	
 	
 	private static void finDeJuego(int contadorAtaquesJ1, int contadorAtaquesJ2, boolean ganador) {
-		
-		if (ganador) System.out.println("Jugador 1 gana la partida");	
+		System.out.println();
+		if (!ganador) System.out.println("Jugador 1 gana la partida");	
 		else System.out.println("Jugador 2 gana la partida");
 		System.out.println("Numero de ataques jugador 1: " + contadorAtaquesJ1);
 		System.out.println("Numero de ataques jugador 2: " + contadorAtaquesJ2);	
 	}
+	
+	private static void ocultarTablero() {
+		
+		System.out.println("Presiona ENTER para continuar...");
+		TECLADO.nextLine();
+		TECLADO.nextLine();
+		
+		for (int i = 0; i < 25; i++) {
+			System.out.println("\n");
+		}
+		
+	}
+	
 }
 
 // FALTA ARREGLAR LOS LIMITES DEL ARRAY CUANDO VAYA A INTRODUCIR EL BARCO 2
